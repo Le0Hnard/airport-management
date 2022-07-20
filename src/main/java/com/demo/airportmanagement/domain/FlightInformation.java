@@ -1,12 +1,14 @@
-package com.demo.airportmanagement.com.demo.airportmanagement.domain;
+package com.demo.airportmanagement.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Document("flights")
 public class FlightInformation {
@@ -14,16 +16,23 @@ public class FlightInformation {
     @Id
     private String id;
 
+    @Indexed(unique = true)
+    private String internalId;
+
     @Field("departure")
-    @Indexed
+    @TextIndexed
     private String departureCity;
 
     @Field("destination")
-    @Indexed
+    @TextIndexed
     private String destinationCity;
+
+    @TextIndexed(weight = 2)
+    private String description;
+
     private FlightType type;
     private boolean isDelayed;
-    private int durationWin;
+    private int durationMin;
     private LocalDate departureDate;
     private Aircraft aircraft;
 
@@ -31,22 +40,8 @@ public class FlightInformation {
     private LocalDate createdAt;
 
     public FlightInformation() {
-
-    }
-
-    public FlightInformation(String departureCity, String destinationCity, FlightType type, boolean isDelayed, int durationWin, LocalDate departureDate, Aircraft aircraft) {
-        this.departureCity = departureCity;
-        this.destinationCity = destinationCity;
-        this.type = type;
-        this.isDelayed = isDelayed;
-        this.durationWin = durationWin;
-        this.departureDate = departureDate;
-        this.aircraft = aircraft;
         this.createdAt = LocalDate.now();
-    }
-
-    public FlightInformation(LocalDate createdAt) {
-        this.createdAt = LocalDate.now();
+        this.internalId = UUID.randomUUID().toString();
     }
 
     public String getId() {
@@ -89,12 +84,12 @@ public class FlightInformation {
         isDelayed = delayed;
     }
 
-    public int getDurationWin() {
-        return durationWin;
+    public int getDurationMin() {
+        return durationMin;
     }
 
-    public void setDurationWin(int durationWin) {
-        this.durationWin = durationWin;
+    public void setDurationMin(int durationMin) {
+        this.durationMin = durationMin;
     }
 
     public LocalDate getDepartureDate() {
@@ -117,8 +112,16 @@ public class FlightInformation {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
+    public String getInternalId() {
+        return internalId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

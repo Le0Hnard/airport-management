@@ -1,7 +1,7 @@
-package com.demo.airportmanagement.com.demo.airportmanagement.queries;
+package com.demo.airportmanagement.queries;
 
-import com.demo.airportmanagement.com.demo.airportmanagement.domain.FlightInformation;
-import com.demo.airportmanagement.com.demo.airportmanagement.domain.FlightType;
+import com.demo.airportmanagement.domain.FlightInformation;
+import com.demo.airportmanagement.domain.FlightType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
