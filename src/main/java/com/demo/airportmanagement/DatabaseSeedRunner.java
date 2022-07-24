@@ -1,10 +1,13 @@
 package com.demo.airportmanagement;
 
+import com.demo.airportmanagement.db.FlightInformationRepository;
 import com.demo.airportmanagement.domain.Aircraft;
 import com.demo.airportmanagement.domain.FlightInformation;
+import com.demo.airportmanagement.domain.FlightPrinter;
 import com.demo.airportmanagement.domain.FlightType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -17,10 +20,10 @@ import java.util.List;
 @Order(1)
 public class DatabaseSeedRunner implements CommandLineRunner {
 
-    private MongoTemplate mongoTemplate;
+    private FlightInformationRepository repository;
 
-    public DatabaseSeedRunner(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+    public DatabaseSeedRunner(FlightInformationRepository repository) {
+        this.repository = repository;
     }
 
 
@@ -100,11 +103,19 @@ public class DatabaseSeedRunner implements CommandLineRunner {
                 flightSix
         );
 
-        this.mongoTemplate.insertAll(flights);
+        this.repository.insert(flights);
+
+        long count = this.repository.count();
+        System.out.println(("Total flights in database: " + count));
+
+        List<FlightInformation> flightsInDb = this.repository.findAll(Sort.by("departureCity").ascending());
+        FlightPrinter.print(flightsInDb);
+
+        System.out.println("--- Seeder finished ---\n");
     }
 
     private void empty() {
-        this.mongoTemplate.remove(new Query(), FlightInformation.class);
+        this.repository.deleteAll();
     }
 
     @Override

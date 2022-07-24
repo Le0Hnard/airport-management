@@ -18,13 +18,4 @@ public class AirportManagementApplication {
 		SpringApplication.run(AirportManagementApplication.class, args);
 	}
 
-	@Bean
-	public MongoCustomConversions customConversions() {
-		List<Converter<?, ?>> converters = new ArrayList<>();
-		converters.add(new AircraftDbReadConverter());
-		converters.add(new AircraftDbWriteConverter());
-
-		return new MongoCustomConversions(converters);
-	}
-
 }
