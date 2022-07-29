@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-@Order(2)
 public class ApplicationRunner implements CommandLineRunner {
 
     private FlightInformationRepository flightRepository;
