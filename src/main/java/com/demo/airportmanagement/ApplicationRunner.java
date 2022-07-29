@@ -23,20 +23,13 @@ import java.util.List;
 public class ApplicationRunner implements CommandLineRunner {
 
     private FlightInformationRepository flightRepository;
-    private AirportRepository airportRepository;
 
-    public ApplicationRunner(FlightInformationRepository flightRepository, AirportRepository airportRepository) {
+    public ApplicationRunner(FlightInformationRepository flightRepository) {
         this.flightRepository = flightRepository;
-        this.airportRepository = airportRepository;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        Airport rome = this.airportRepository.findById("1d1aab22-670b-48cb-a027-721e2055731f").get();
-        rome.setName("Leonardo Da Vinci (Fiumicino)");
-        this.airportRepository.save(rome);
-
-        System.out.println("-> AFTER UPDATE TO ROME AIRPORT");
+    public void run(String... args) {
         List<FlightInformation> flights = this.flightRepository.findAll();
         FlightPrinter.print(flights);
     }
