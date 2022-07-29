@@ -10,8 +10,8 @@ public class FlightPrinter {
         for (FlightInformation f: flights) {
             String data = String.format("%-12s %-12s %-8s %-13s %-9s %-8s %-8s %s",
 //            String data = String.format("%-12s %-12s %-8s %-13s %-9s",
-                    f.getDepartureCity(),
-                    f.getDestinationCity(),
+                    f.getDeparture().getName(),
+                    f.getDestination().getName(),
                     f.getDurationMin(),
                     f.getDepartureDate(),
                     f.isDelayed(),
